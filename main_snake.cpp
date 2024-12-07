@@ -112,11 +112,81 @@
 #include <string>
 #include <cstdlib> // pour exit et rand
 
+int ligne = 5
+int colonne = 7
 
 std::pair<int, int> pomme;
 
+std::vector<std::pair<int, int>> pos_snake = {
+    {ligne/2, colonne/2},     // Tête
+    {ligne/2, colonne/2 - 1}, // Corps segment 1
+    {ligne/2, colonne/2 - 2}  // Corps segment 2
+};
+
+
 void reset_board() {}        // qui ré-initialise le board
-void add_snake_to_board() {} // qui met le serpent sur le board
+
+void add_snake_to_board(int taille, std::vector<std::pair<int, int>>& pos_snake) { // qui met le serpent sur le board
+    char key;
+    std::cout << "What do you want to do ('q' to quit): ";
+    std::cin >> key;
+    if (key == 'q') {
+        std::cout << "Bye bye!" << std::endl;
+        return;
+    }
+    // nouvelle position de la tête du serpent en fonction de la touche + game over si on touche les bords.
+    std::pair<int, int> nv_tete;  // Nouvelle tête du serpent
+    std::vector<std::pair<int, int>> new_pos_snake(pos_snake.size()); // Nouveau vecteur snake, taille égale à celle du serpent à l'état précédent
+    if (key == 'l') {
+        if (pos_snake[0].second == colonne-1) {
+            std::cout << "Game Over: le snake a touché le mur!" << std::endl;
+            return;
+        }
+        else {
+        nv_tete = {pos_snake[0].first, pos_snake[0].second +1};
+        }
+    }
+    if (key == 'j') {
+        if (pos_snake[0].second == 0) {
+            std::cout << "Game Over: le snake a touché le mur!" << std::endl;
+            return;
+        }
+        else {
+        nv_tete = {pos_snake[0].first, pos_snake[0].second -1};
+        }
+    }
+    if (key == 'k') { 
+        if (pos_snake[0].first == ligne-1) {
+            std::cout << "Game Over: le snake a touché le mur!" << std::endl;
+            return;
+        }
+        else {
+        nv_tete = {pos_snake[0].first +1, pos_snake[0].second};
+        }
+    }
+    if (key == 'i') {
+        if (pos_snake[0].first == 0) {
+            std::cout << "Game Over: le snake a touché le mur!" << std::endl;
+            return;
+        }
+        else {
+        nv_tete = {pos_snake[0].first -1, pos_snake[0].second};
+        }
+    }
+    for (int i = pos_snake.size() - 1; i > 0; --i) {
+        new_pos_snake[i] = pos_snake[i-1];  // Chaque segment suit le précédent
+        }
+    new_pos_snake[0] = nv_tete;
+    
+    if (nv_tete == pomme) {
+        new_pos_snake.push_back(pos_snake.back()); // Le serpent grandit, on ajoute un nouvel élément à la fin (ancienne queue)
+        pomme = generate_apple(); // si le serpent mange la pomme, une nouvelle est générée.
+    }
+    pos_snake = new_pos_snake;
+    
+}
+
+
 
 void generate_apple(std::pair<int, int> pomme, std:: vector<std::pair<int, int>> pos_snake) {     // qui génère une pomme au hasard sur le board.
     while (true) {std::pair<int, int> nv_pomme = std::pair<int, int>(simple_random(4), simple_random(6));
@@ -126,11 +196,14 @@ void generate_apple(std::pair<int, int> pomme, std:: vector<std::pair<int, int>>
     for (std::pair<int,int>& pos : pos_snake) { // on appelle pos chaque position du snake (for pos in pos_snake)
         if (pos == nv_pomme) {
             touch_snake = true;
-            break;   // arrêt de la boucle
+            break;   // arrêt de la boucle pcq il suffit qu'une seule partie du snake soit en contcat avec la pomme pour que y'ai un pb. On peut s'arrêter dès que ya un problème, pas besoin de regarder les autres parties du snake.
+        }
+    if (touch_snake = false) {
+        pomme = nv_pomme;
         }
     }
 }
-}
+
 void add_apple_to_board() {} // qui met la pomme sur le board
 
 void draw_board()
