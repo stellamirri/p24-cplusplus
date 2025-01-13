@@ -112,7 +112,7 @@ int main()
     if (shape1)
     {
         std::cout << "Aire de la forme trouvée : " << shape1->area() << std::endl;
-        shape1 -> move(1, 2);
+        shape1->move(1, 2);
     }
     else
     {
@@ -123,12 +123,13 @@ int main()
     if (shape2)
     {
         std::cout << "Aire de la forme trouvée : " << shape2->area() << std::endl;
-        shape2 -> move(1, 2);
+        shape2->move(1, 2);
     }
     else
     {
         std::cout << "Aucune forme trouvée aux coordonnées données." << std::endl;
     }
     //  pouvez vous appeler la méthode move et area sur shape2 ?
+    // non car aucune forme n'a été trouvée aux coordonnées données.
     return 0;
 }
