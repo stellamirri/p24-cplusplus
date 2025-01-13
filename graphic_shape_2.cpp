@@ -84,7 +84,6 @@ Shape *find_at_position(int x, int y, std::vector<Shape *> shapes)
     {
         if (s->is_at_position(x, y)) // on renvoie s à la méthode contenu dans la classe de base shapes d'où le ->
         {
-            std::cout << "Forme trouvée aux coordonnées données" << std::endl;
             return s;
         }
     }
@@ -100,12 +99,6 @@ int main()
     std::vector<Shape *> shapes;
     shapes.push_back(&c);
     shapes.push_back(&r);
-
-    // première version (sans find_at_position et is_at_position)
-    shapes[0]->move(4, 6);
-    shapes[1]->move(2, 8);
-    std::cout << shapes[0]->area() << std::endl; // affiche dans les 63.6173
-    std::cout << shapes[1]->area() << std::endl; // 1800
 
     // deuxième version (avec find_at_position et is_at_position)
     Shape *shape1 = find_at_position(10, 20, shapes);
@@ -131,5 +124,12 @@ int main()
     }
     //  pouvez vous appeler la méthode move et area sur shape2 ?
     // non car aucune forme n'a été trouvée aux coordonnées données.
+
+    // première version (sans find_at_position et is_at_position)
+    shapes[0]->move(4, 6);
+    shapes[1]->move(2, 8);
+    std::cout << shapes[0]->area() << std::endl; // affiche dans les 63.6173
+    std::cout << shapes[1]->area() << std::endl; // 1800
+
     return 0;
 }
