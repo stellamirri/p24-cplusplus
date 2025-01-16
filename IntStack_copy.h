@@ -3,7 +3,6 @@
 #include <stack>
 
 
-// on définit un type de donnée (une classe) pour gérer une pile d'entier de taille 12 (SIZE)
 class IntStack
 {
     int n;    // nombre d'éléments dans ma pile
